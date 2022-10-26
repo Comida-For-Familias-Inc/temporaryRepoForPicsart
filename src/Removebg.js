@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-const Homepage = () => {
+const Removebg = () => {
 
 
     const [selectedFile, setSelectedFile] = React.useState(null);
@@ -23,10 +23,10 @@ const Homepage = () => {
 
         axios({
             method: 'POST',
-            url: 'https://api.picsart.io/tools/1.0/vectorizer', 
-            data: vectorizerForm, 
-            headers:{ 
-                "accept": "application/json", 
+            url: 'https://api.picsart.io/tools/1.0/vectorizer',
+            data: vectorizerForm,
+            headers:{
+                "accept": "application/json",
                 "X-Picsart-API-Key": "63k4QybyC31Z5pR7xcNNGA2bcEzvc6Rz",
                 "Content-Type" : "multipart/form-data"
             }}
@@ -45,10 +45,10 @@ const Homepage = () => {
 
         axios({
             method: 'POST',
-            url: 'https://api.picsart.io/tools/1.0/removebg', 
-            data: backgroundForm, 
-            headers:{ 
-                "accept": "application/json", 
+            url: 'https://api.picsart.io/tools/1.0/removebg',
+            data: backgroundForm,
+            headers:{
+                "accept": "application/json",
                 "X-Picsart-API-Key": "63k4QybyC31Z5pR7xcNNGA2bcEzvc6Rz",
                 "Content-Type" : "multipart/form-data"
             }}
@@ -63,7 +63,7 @@ const Homepage = () => {
 
 
     return (
-        
+
         <div>
             <div>
                 <input type="file" onChange={filechange} />
@@ -75,4 +75,4 @@ const Homepage = () => {
     )
 }
 
-export default Homepage;
+export default Removebg;
