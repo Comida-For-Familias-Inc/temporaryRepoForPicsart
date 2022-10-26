@@ -4,14 +4,20 @@ const Homepage = () => {
 
 
     const [selectedFile, setSelectedFile] = React.useState(null);
-    const [fileSelected, setFileSelected] = React.useState(false);
     const [ImageURLVectorizer, setImageURLVectorizer] = React.useState(null);
-    const [ImageURLBG, setImageURLBG] = React.useState();
+    const [ImageURLBG, setImageURLBG] = React.useState(null);
+    const [referenceImage, setReferenceImage] = React.useState(null);
+    const [imageTransferURL, setImageTransferURL] = React.useState(null);
 
 
     function filechange(e) {
         e.preventDefault();
         setSelectedFile( e.target.files[0] );
+    }
+
+    function fileChange2(e) {
+        e.preventDefault();
+        setReferenceImage( e.target.files[0] );
     }
 
     function fileupload() {
@@ -59,6 +65,28 @@ const Homepage = () => {
         .catch((err) => {
             console.log(err);
         });
+
+        const tranferForm = new FormData();
+        tranferForm.append('reference_image', referenceImage);
+        tranferForm.append('image', selectedFile);
+        tranferForm.append('level', "l1");
+
+        axios({
+            method: 'POST',
+            url: 'https://api.picsart.io/tools/1.0/styletransfer', 
+            data: tranferForm, 
+            headers:{ 
+                "accept": "application/json", 
+                "X-Picsart-API-Key": "63k4QybyC31Z5pR7xcNNGA2bcEzvc6Rz",
+                "Content-Type" : "multipart/form-data"
+            }}
+        )
+        .then((res) => {
+            setImageTransferURL( res.data.data.url );
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
 
 
@@ -67,9 +95,11 @@ const Homepage = () => {
         <div>
             <div>
                 <input type="file" onChange={filechange} />
+                <input type="file" onChange={fileChange2} />
                 <button onClick={fileupload}> press me </button>
                 {ImageURLVectorizer && <img src={ImageURLVectorizer} style={{ height: '500px' , width:'500px'}}/>}
                 {ImageURLBG && <img src={ImageURLBG} style={{ height: '500px' , width:'500px'}}/>}
+                {imageTransferURL && <img src={imageTransferURL} style={{ height: '500px' , width:'500px'}}/>}
             </div>
         </div>
     )
